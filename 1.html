@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Puzzle 1</title>
+    <style>
+        #container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+        }
+
+        .piece {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            background-image: url('new-york.jpg'); /* Set the background image here */
+        }
+        .buttons {
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body>
+    <div id="menu">
+        <ul>
+            <a href="2.html" class="menu-button">Puzzle 2</a>
+        </ul>
+    </div>
+    <div id="buttons">
+        <button id="upB">Up</button>
+        <button id="downB">Down</button>
+        <button id="leftB">Left</button>
+        <button id="rightB">Right</button>
+    </div>
+
+    <div id="container"></div>
+
+    <script>
+        var pieceWidth = 200;
+        var pieceHeight = 200;
+        var Piece = null;
+
+        $(document).ready(function() {//
+            function createPuzzlePieces() {
+                // Your existing code for creating puzzle pieces
+                for (var i = 0; i < 2; i++) {
+                    for (var j = 0; j < 3; j++) {
+                        var piece = $('<div class="piece"></div>');
+                        piece.css({
+                            backgroundPosition: '-' + (j * pieceWidth) + 'px -' + (i * pieceHeight) + 'px',
+                            top: (i * pieceHeight) + 'px',
+                            left: (j * pieceWidth) + 'px'
+                        });
+                        $('#container').append(piece);
+                        if (i === 1 && j === 2) {
+                            Piece = piece;
+                        }
+                    }
+                }
+                // Set random but solvable position for the last piece
+                var solvablePositions = [
+                    { top: 0, left: 0 },
+                    { top: 0, left: 200 },
+                    { top: 0, left: 400 },
+                    { top: 200, left: 0 },
+                    { top: 200, left: 200 },
+                    { top: 600, left: 200 },
+                    { top: 600, left: 400 },
+                    { top: 600, left: 0 },
+                    { top: 200, left: 0 },
+                    { top: 200, left: 200 },
+                ];
+                var randomPosition = solvablePositions[Math.floor(Math.random() * solvablePositions.length)];
+                Piece.css({
+                    top: randomPosition.top + 'px',
+                    left: randomPosition.left + 'px'
+                });
+            }
+
+            createPuzzlePieces();
+
+            function movePiece(direction) {
+                var currentPosition = Piece.position();
+
+                if (direction === 'up' && currentPosition.top > 0) {
+                    Piece.css('top', currentPosition.top - pieceHeight + 'px');
+                } else if (direction === 'down' && currentPosition.top < 800) {
+                    Piece.css('top', currentPosition.top + pieceHeight + 'px');
+                } else if (direction === 'left' && currentPosition.left > 0) {
+                    Piece.css('left', currentPosition.left - pieceWidth + 'px');
+                } else if (direction === 'right' && currentPosition.left < 800) {
+                    Piece.css('left', currentPosition.left + pieceWidth + 'px');
+                }
+            }
+
+            // Event listeners for buttons
+            $('#upB').click(function() {
+                movePiece('up');
+            });
+
+            $('#downB').click(function() {
+                movePiece('down');
+            });
+
+            $('#leftB').click(function() {
+                movePiece('left');
+            });
+        
+            $('#rightB').click(function() {
+                movePiece('right');
+            });
+        });
+    </script>
+</body>
+</html>
+
+

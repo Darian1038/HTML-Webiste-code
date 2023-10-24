@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Puzzle 2</title>
+    <style>
+        #container {
+            position: relative;
+            width: 1000px;
+            height: 600px;
+            border: 2px solid black;
+        }
+
+        .piece {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            background-image: url('new-york.jpg'); /* Set the background image here */
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body>
+    <div id="menu">
+        <ul>
+            <a href="1.html" class="menu-button">Puzzle 1</a>
+        </ul>
+    </div>
+    <div id="container"></div>
+
+    <script>
+        $(document).ready(function() {
+            function createPuzzlePieces() {
+                var pieceWidth = 200;
+                var pieceHeight = 200;
+                //
+                for (var i = 0; i < 2; i++) {
+                    for (var j = 0; j < 3; j++) {
+                        var piece = $('<div class="piece"></div>');
+                        piece.css({
+                            backgroundPosition: '-' + (j * pieceWidth) + 'px -' + (i * pieceHeight) + 'px',
+                            top: (Math.floor(Math.random()*400)) + 'px',
+                            left: (Math.floor(Math.random()*800)) + 'px'
+                        });
+                        $('#container').append(piece);
+                    }
+                }
+
+                // Make puzzle pieces draggable
+                $('.piece').draggable({
+                    containment: '#container',
+                    snap: '#container',
+                    snapMode: 'inner',
+                    snapTolerance: 10
+                });
+            }
+
+            createPuzzlePieces();
+        });
+    </script>
+</body>
+</html>
